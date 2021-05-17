@@ -6,8 +6,11 @@ const bodyParser = express.json()
 
 serializeUser = (user) => ({
     email: xss(user.email),
+    firstname: xss(user.firstname),
+    lastname: xss(user.lastname),
     username: xss(user.username),
-    password: xss(user.password) 
+    password: xss(user.password),
+    phone: xss(user.phone)
 })
 
 userRouter = express.Router()
@@ -23,8 +26,8 @@ userRouter
             .catch(next)
     })
     .post(bodyParser, (req, res, next) => {
-        const { email, username, password } = req.body
-        const newUser = {email, username, password}
+        const { id, email, firstname, lastname, username, password, phone } = req.body
+        const newUser = {id, email, firstname, lastname, username, password, phone}
 
         for (const [key, value] of Object.entries(newUser)) {
             if (value == null) {
@@ -45,20 +48,4 @@ userRouter
             .catch(next)
     })
 
-userRouter
-    .route('/:email')
-    .get((req, res, next) => {
-        const { email } = req.params
-        const knexInstance = req.app.get('db')
-        UserService.getUserByEmail(knexInstance, email)
-            .then(user => {
-                res.json(user)
-            })
-            .catch(next)
-    })
-
 module.exports = userRouter
-
-
-
-
