@@ -5,5 +5,5 @@ CREATE TABLE users(
   lastname TEXT NOT NULL,
   username TEXT NOT NULL,
   password TEXT NOT NULL,
-  phone BIGINT
+  phone TEXT
 );
