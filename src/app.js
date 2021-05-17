@@ -16,7 +16,7 @@ app.use(helmet())
 app.use(cors())
 app.use(express.json())
 
-app.use(errorHandler = (error, res) => {
+app.use(errorHandler = (error, req, res, next) => {
   let response
   if (NODE_ENV === 'production') {
     response = { error: { message: 'server error' } }
